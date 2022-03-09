@@ -2,6 +2,11 @@
 const filterSelect = document.getElementById('filter');
 const cardContainer = document.querySelector('.card-container');
 
+const icons = iconsBase.map(ele => {
+	ele.color = `#${randomHex()}`;
+	return ele;
+});
+console.log(icons);
 const iconsTypeArr = ['all'];
 
 icons.forEach(icon => {
@@ -45,3 +50,12 @@ filterSelect.addEventListener('change', () => {
 		displayCard.forEach(ele => renderCard(ele));
 	}
 });
+
+function randomHex() {
+	return randomInt(0, 16777215).toString(16);
+}
+
+function randomInt(min, max) {
+	const randomNumber = Math.floor(Math.random() * max + min);
+	return randomNumber;
+}
