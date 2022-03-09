@@ -2,7 +2,7 @@
 const filterSelect = document.getElementById('filter');
 const cardContainer = document.querySelector('.card-container');
 
-const iconsTypeArr = [];
+const iconsTypeArr = ['all'];
 
 icons.forEach(icon => {
 	if (!iconsTypeArr.includes(icon.type)) {
@@ -12,9 +12,9 @@ icons.forEach(icon => {
 
 console.log(iconsTypeArr);
 
-iconsTypeArr.forEach(type => {
+iconsTypeArr.forEach((type, index) => {
 	const option = document.createElement('option');
-	option.value = type;
+	option.value = index;
 	option.innerHTML = type;
 	filterSelect.append(option);
 });
@@ -33,3 +33,15 @@ function renderCard(icon) {
 	`;
 	cardContainer.append(card);
 }
+
+filterSelect.addEventListener('change', () => {
+	cardContainer.innerHTML = '';
+	if (filterSelect.value == 0) {
+		icons.forEach(icon => renderCard(icon));
+	} else {
+		const displayCard = icons.filter(icon => {
+			return icon.type == iconsTypeArr[filterSelect.value];
+		});
+		displayCard.forEach(ele => renderCard(ele));
+	}
+});
