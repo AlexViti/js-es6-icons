@@ -3,17 +3,14 @@ const filterSelect = document.getElementById('filter');
 const cardContainer = document.querySelector('.card-container');
 const colorSelect = document.getElementById('colors');
 
-const iconsRandomColor = JSON.parse(JSON.stringify(iconsBase));
-iconsRandomColor.map(ele => {
+const iconsRandomColor = iconsBase.map(ele => ele = {...ele});
+iconsRandomColor.forEach(ele => {
 	ele.color = randomHexColor();
-	return ele;
 });
 
 const iconsArr = [{array: iconsBase, type: 'base'}, {array: iconsRandomColor, type: 'random'}];
 
 iconsArr.forEach((ele, index) => colorSelect.append(optionCreator(ele.type, index)));
-
-let icons = iconsArr[colorSelect.value].array;
 
 const iconsTypeArr = ['all'];
 
@@ -35,7 +32,7 @@ function optionCreator(innerHTML, index) {
 }
 
 function renderCards() {
-	icons = iconsArr[colorSelect.value].array;
+	const icons = iconsArr[colorSelect.value].array;
 	cardContainer.innerHTML = '';
 	if (filterSelect.value == 0) icons.forEach(icon => renderCard(icon));
 	else {
