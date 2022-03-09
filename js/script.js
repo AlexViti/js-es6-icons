@@ -2,6 +2,8 @@
 const filterSelect = document.getElementById('filter');
 const cardContainer = document.querySelector('.card-container');
 const colorSelect = document.getElementById('colors');
+const fontAwesomeSelect = document.getElementById('font-awesome');
+const fontAwesomeCDN = document.getElementById('font-awesome-CDN')
 
 /* Math functions */
 const randomInt = (min, max) => Math.floor(Math.random() * max + min);
@@ -18,13 +20,25 @@ iconsBase.forEach(icon => {
 });
 
 const iconsArr = [
-	{array: iconsBase, 									 option: 'base'},
-	{array: iconsBase.map(ele => ele = {...ele}), option: 'random'}
+	{array: iconsBase, 										 option: 'base'},
+	{array: iconsBase.map(icon => icon = {...icon}), option: 'random'}
 ];
 iconsArr[1].array.forEach(ele => ele.color = randomHexColor()); //Change colors into random ones
 
+const fontAwesome = [
+	{
+	version: "5.15.4", 
+	href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+	},
+	{
+	version: "6.0.0", 
+	href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+	}
+];
+
 iconsArr.forEach((obj, index) => colorSelect.append(optionCreator(obj.option, index)));
 iconsTypeArr.forEach((type, index) => filterSelect.append(optionCreator(type, index)));
+fontAwesome.forEach((ele, index) => fontAwesomeSelect.append(optionCreator(ele.version, index)));
 
 function optionCreator(innerHTML, index) {
 	const option = document.createElement('option');
@@ -33,8 +47,20 @@ function optionCreator(innerHTML, index) {
 	return option;
 }
 
-colorSelect.addEventListener('change', renderCards);
 filterSelect.addEventListener('change', renderCards);
+colorSelect.addEventListener('change', renderCards);
+fontAwesomeSelect.addEventListener('change', function () {
+	let family;
+	if (this.value == 0) family = 'fas';
+	else family = 'fa-solid';
+	fontAwesomeCDN.href = fontAwesome[this.value].href;
+	iconsArr.forEach(obj => {
+		obj.array.map(icon => {
+			icon.family = family;
+		})
+	})
+	renderCards();
+});
 
 renderCards();
 
