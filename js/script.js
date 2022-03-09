@@ -1,58 +1,67 @@
 /* HTML ELEMENTS */
 const filterSelect = document.getElementById('filter');
 const cardContainer = document.querySelector('.card-container');
+const colorSelect = document.getElementById('colors');
 
-const icons = iconsBase.map(ele => {
-	ele.color = `#${randomHex()}`;
+const iconsRandomColor = JSON.parse(JSON.stringify(iconsBase));
+iconsRandomColor.map(ele => {
+	ele.color = randomHexColor();
 	return ele;
 });
-console.log(icons);
+
+const iconsArr = [{array: iconsBase, type: 'base'}, {array: iconsRandomColor, type: 'random'}];
+
+iconsArr.forEach((ele, index) => colorSelect.append(optionCreator(ele.type, index)));
+
+let icons = iconsArr[colorSelect.value].array;
+
 const iconsTypeArr = ['all'];
 
-icons.forEach(icon => {
+iconsBase.forEach(icon => {
 	if (!iconsTypeArr.includes(icon.type)) {
 		iconsTypeArr.push(icon.type);
 	}
 });
 
-console.log(iconsTypeArr);
+colorSelect.addEventListener('change', renderCards);
 
-iconsTypeArr.forEach((type, index) => {
+iconsTypeArr.forEach((type, index) => filterSelect.append(optionCreator(type, index)));
+
+function optionCreator(innerHTML, index) {
 	const option = document.createElement('option');
 	option.value = index;
-	option.innerHTML = type;
-	filterSelect.append(option);
-});
+	option.innerHTML = innerHTML;
+	return option;
+}
 
-icons.forEach(icon => renderCard(icon));
+function renderCards() {
+	icons = iconsArr[colorSelect.value].array;
+	cardContainer.innerHTML = '';
+	if (filterSelect.value == 0) icons.forEach(icon => renderCard(icon));
+	else {
+		const filteredCards = icons.filter(icon => {
+			return icon.type == iconsTypeArr[filterSelect.value];
+		});
+		filteredCards.forEach(ele => renderCard(ele));
+	}
+}
+
+renderCards();
 
 function renderCard(icon) {
 	const card = document.createElement('div');
 	card.classList.add('card');
-	const iconEle = document.createElement('i');
-	iconEle.classList = `${icon.family} ${icon.prefix}${icon.name}`;
-	iconEle.style.color = icon.color;
 	card.innerHTML = `
-		${iconEle.outerHTML}
+		<i class="${icon.family} ${icon.prefix}${icon.name}" style="color: ${icon.color}"></i>
 		<div>${icon.name}</div>
 	`;
 	cardContainer.append(card);
 }
 
-filterSelect.addEventListener('change', () => {
-	cardContainer.innerHTML = '';
-	if (filterSelect.value == 0) {
-		icons.forEach(icon => renderCard(icon));
-	} else {
-		const displayCard = icons.filter(icon => {
-			return icon.type == iconsTypeArr[filterSelect.value];
-		});
-		displayCard.forEach(ele => renderCard(ele));
-	}
-});
+filterSelect.addEventListener('change', renderCards);
 
-function randomHex() {
-	return randomInt(0, 16777215).toString(16);
+function randomHexColor() {
+	return `#${randomInt(0, 16777215).toString(16)}`;
 }
 
 function randomInt(min, max) {
