@@ -15,12 +15,12 @@ html {
 }
 
 body {
-	display: flex;
-	flex-direction: column;
+	background-color: var(--gray-color);
 	min-height: 100vh;
 }
 
 header {
+	background-color: #ffffff;
 	color: var(--lightblue-color);
 	font-size: 20px;
 	padding: 1rem 0 .2rem .5rem;
@@ -34,11 +34,6 @@ nav {
 	text-align: center;
 	font-size: 1.3rem;
 	font-weight: 500;
-}
-
-main {
-	background-color: var(--gray-color);
-	flex-grow: 1;
 }
 
 .card {
