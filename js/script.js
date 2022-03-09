@@ -7,6 +7,9 @@ const colorSelect = document.getElementById('colors');
 const randomInt = (min, max) => Math.floor(Math.random() * max + min);
 const randomHexColor = () => `#${randomInt(0, 16777215).toString(16)}`;
 
+/* Create an array with every different type + all
+	Used for type filter option creation
+*/
 const iconsTypeArr = ['all'];
 iconsBase.forEach(icon => {
 	if (!iconsTypeArr.includes(icon.type)) {
@@ -14,10 +17,13 @@ iconsBase.forEach(icon => {
 	}
 });
 
-const iconsArr = [{array: iconsBase, type: 'base'}, {array: iconsBase.map(ele => ele = {...ele}), type: 'random'}];
-iconsArr[1].array.forEach(ele => ele.color = randomHexColor());
+const iconsArr = [
+	{array: iconsBase, 									 option: 'base'},
+	{array: iconsBase.map(ele => ele = {...ele}), option: 'random'}
+];
+iconsArr[1].array.forEach(ele => ele.color = randomHexColor()); //Change colors into random ones
 
-iconsArr.forEach((ele, index) => colorSelect.append(optionCreator(ele.type, index)));
+iconsArr.forEach((obj, index) => colorSelect.append(optionCreator(obj.option, index)));
 iconsTypeArr.forEach((type, index) => filterSelect.append(optionCreator(type, index)));
 
 function optionCreator(innerHTML, index) {

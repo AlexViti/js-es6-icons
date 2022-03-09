@@ -38,6 +38,8 @@ nav {
 
 main {
 	padding: 1rem;
+	max-width: 1300px;
+	margin: auto;
 }
 
 .card-container {
