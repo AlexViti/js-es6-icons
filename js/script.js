@@ -27,12 +27,12 @@ iconsArr[1].array.forEach(ele => ele.color = randomHexColor()); //Change colors 
 
 const fontAwesome = [
 	{
-	version: "5.15.4", 
-	href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+		version: "5.15.4", 
+		href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
 	},
 	{
-	version: "6.0.0", 
-	href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+		version: "6.0.0", 
+		href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
 	}
 ];
 
@@ -51,8 +51,8 @@ filterSelect.addEventListener('change', renderCards);
 colorSelect.addEventListener('change', renderCards);
 fontAwesomeSelect.addEventListener('change', function () {
 	let family;
-	if (this.value == 0) family = 'fas';
-	else family = 'fa-solid';
+	if (this.value == this.length - 1) family = 'fa-solid';
+	else family = 'fas';
 	fontAwesomeCDN.href = fontAwesome[this.value].href;
 	iconsArr.forEach(obj => {
 		obj.array.map(icon => {
@@ -62,26 +62,28 @@ fontAwesomeSelect.addEventListener('change', function () {
 	renderCards();
 });
 
-renderCards();
-
 function renderCards() {
-	const icons = iconsArr[colorSelect.value].array;
 	cardContainer.innerHTML = '';
-	if (filterSelect.value == 0) icons.forEach(icon => renderCard(icon));
+	const icons = iconsArr[colorSelect.value].array;
+	
+	if (filterSelect.value == 0) icons.forEach(icon => cardCreator(icon));
 	else {
 		const filteredCards = icons.filter(icon => {
 			return icon.type == iconsTypeArr[filterSelect.value];
 		});
-		filteredCards.forEach(ele => renderCard(ele));
+		filteredCards.forEach(ele => cardCreator(ele));
 	}
 }
 
-function renderCard(icon) {
+function cardCreator(icon) {
 	const card = document.createElement('div');
 	card.classList.add('card');
 	card.innerHTML = `
-		<i class="${icon.family} ${icon.prefix}${icon.name}" style="color: ${icon.color}"></i>
-		<div>${icon.name}</div>
+	<i class="${icon.family} ${icon.prefix}${icon.name}" style="color: ${icon.color}"></i>
+	<div>${icon.name}</div>
 	`;
 	cardContainer.append(card);
 }
+
+/* Default render */
+renderCards();
