@@ -6,7 +6,7 @@ const fontAwesomeSelect = document.getElementById('font-awesome');
 const fontAwesomeCDN = document.getElementById('font-awesome-CDN');
 
 /* Math functions */
-const randomInt = (min, max) => Math.floor(Math.random() * max + min);
+const randomInt = (min, max) => Math.floor(Math.random() * max + min); //Max excluded
 const randomHexColor = () => {
 	let randomHex = '#';
 	while (randomHex.length < 7) {
@@ -16,14 +16,9 @@ const randomHexColor = () => {
 }
 
 /* Create an array with every different type + all
-	Used for type filter option creation
-*/
+	Used for type filter option creation */
 const iconsTypeArr = ['all'];
-iconsBase.forEach(icon => {
-	if (!iconsTypeArr.includes(icon.type)) {
-		iconsTypeArr.push(icon.type);
-	}
-});
+iconsBase.forEach(icon => {if (!iconsTypeArr.includes(icon.type)) iconsTypeArr.push(icon.type)});
 
 const iconsArr = [
 	{array: iconsBase, 										 option: 'base'},
@@ -55,10 +50,9 @@ function optionCreator(innerHTML, index) {
 
 filterSelect.addEventListener('change', renderCards);
 colorSelect.addEventListener('change', renderCards);
+
 fontAwesomeSelect.addEventListener('change', function () {
-	let family;
-	if (this.value == this.length - 1) family = 'fa-solid';
-	else family = 'fas';
+	const family =  this.value == 0 ? 'fas' : 'fa-solid';
 	fontAwesomeCDN.href = fontAwesome[this.value].href;
 	iconsArr.forEach(obj => {
 		obj.array.map(icon => {

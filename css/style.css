@@ -46,6 +46,7 @@ nav {
 
 select {
 	margin-left: .5rem;
+	text-transform: capitalize;
 }
 
 main {
