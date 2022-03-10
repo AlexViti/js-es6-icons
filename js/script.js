@@ -26,16 +26,11 @@ const iconsArr = [
 ];
 iconsArr[1].array.forEach(ele => ele.color = randomHexColor()); //Change colors into random ones
 
-const fontAwesome = [
-	{
-		version: "5.15.4", 
-		href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-	},
-	{
-		version: "6.0.0", 
-		href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-	}
-];
+function FontAwesomeVersion(version) {
+	this.version = version;
+	this.href = `https://cdnjs.cloudflare.com/ajax/libs/font-awesome/${this.version}/css/all.min.css`
+}
+const fontAwesome = [new FontAwesomeVersion('5.15.4'), new FontAwesomeVersion('6.0.0')];
 
 iconsArr.forEach((obj, index) => colorSelect.append(optionCreator(obj.option, index)));
 iconsTypeArr.forEach((type, index) => filterSelect.append(optionCreator(type, index)));
