@@ -3,11 +3,17 @@ const filterSelect = document.getElementById('filter');
 const cardContainer = document.querySelector('.card-container');
 const colorSelect = document.getElementById('colors');
 const fontAwesomeSelect = document.getElementById('font-awesome');
-const fontAwesomeCDN = document.getElementById('font-awesome-CDN')
+const fontAwesomeCDN = document.getElementById('font-awesome-CDN');
 
 /* Math functions */
 const randomInt = (min, max) => Math.floor(Math.random() * max + min);
-const randomHexColor = () => `#${randomInt(0, 16777215).toString(16)}`;
+const randomHexColor = () => {
+	let randomHex = '#';
+	while (randomHex.length < 7) {
+		randomHex += randomInt(0, 16).toString(16);
+	}
+	return randomHex;
+}
 
 /* Create an array with every different type + all
 	Used for type filter option creation
